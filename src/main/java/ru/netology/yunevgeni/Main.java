@@ -6,73 +6,88 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        int transactionCount = 5;
 
-        int transaction1Amount;
-        String transaction1Type;
-        boolean transaction1Success;
+        int[] transactionAmount = new int[transactionCount];
+        String[] transactionType = new String[transactionCount];
+        boolean[] transactionSuccess = new boolean[transactionCount];
 
-        double transaction2Amount;
-        char transaction2Currency;
-        String transaction2Status;
+        double[] transaction2Amount = new double[transactionCount];
+        char[] transaction2Currency = new char[transactionCount];
+        String[] transaction2Status = new String[transactionCount];
 
-        String transaction3Description;
-        int transaction3Quantity;
-        double transaction3Price;
+        String[] transaction3Description = new String[transactionCount];
+        int[] transaction3Quantity = new int[transactionCount];
+        double[] transaction3Price = new double[transactionCount];
 
-        String transaction4Recipient;
-        boolean transaction4Verified;
+        String[] transaction4Recipient = new String[transactionCount];
+        boolean[] transaction4Verified = new boolean[transactionCount];
 
-        int transaction5AccountNumber;
-        double transaction5Balance;
+        int[] transaction5AccountNumber = new int[transactionCount];
+        double[] transaction5Balance = new double[transactionCount];
 
-        int transactionCount = 1;
-        while (true) {
-            System.out.println("Введите информацию о транзакции " + transactionCount + ":");
+        for (int i = 0; i < transactionCount; i++) {
+            System.out.println("Введите информацию о транзакции " + (i + 1) + ":");
 
             System.out.print("Сумма транзакции: ");
-            transaction1Amount = scanner.nextInt();
+            transactionAmount[i] = scanner.nextInt();
             System.out.print("Тип транзакции: ");
-            transaction1Type = scanner.next();
+            transactionType[i] = scanner.next();
             System.out.print("Успешность транзакции (true/false): ");
-            transaction1Success = scanner.nextBoolean();
+            transactionSuccess[i] = scanner.nextBoolean();
 
             System.out.print("Сумма транзакции: ");
-            transaction2Amount = scanner.nextDouble();
+            transaction2Amount[i] = scanner.nextDouble();
             System.out.print("Валюта транзакции: ");
-            transaction2Currency = scanner.next().charAt(0);
+            transaction2Currency[i] = scanner.next().charAt(0);
             System.out.print("Статус транзакции: ");
-            transaction2Status = scanner.next();
+            transaction2Status[i] = scanner.next();
 
             System.out.print("Описание транзакции: ");
-            transaction3Description = scanner.next();
+            transaction3Description[i] = scanner.next();
             System.out.print("Количество товара: ");
-            transaction3Quantity = scanner.nextInt();
+            transaction3Quantity[i] = scanner.nextInt();
             System.out.print("Цена товара: ");
-            transaction3Price = scanner.nextDouble();
+            transaction3Price[i] = scanner.nextDouble();
 
             System.out.print("Получатель транзакции: ");
-            transaction4Recipient = scanner.next();
+            transaction4Recipient[i] = scanner.next();
             System.out.print("Подтверждение транзакции (true/false): ");
-            transaction4Verified = scanner.nextBoolean();
+            transaction4Verified[i] = scanner.nextBoolean();
 
             System.out.print("Номер счета: ");
-            transaction5AccountNumber = scanner.nextInt();
+            transaction5AccountNumber[i] = scanner.nextInt();
             System.out.print("Баланс счета: ");
-            transaction5Balance = scanner.nextDouble();
-
-            transactionCount++;
-
-            if (transactionCount > 5) {
-                break;
-            }
+            transaction5Balance[i] = scanner.nextDouble();
         }
 
-        System.out.println("Information:");
-        System.out.println("Транзакция 1: Сумма=" + transaction1Amount + ", Тип=" + transaction1Type + ", Успешность=" + transaction1Success);
-        System.out.println("Транзакция 2: Сумма=" + transaction2Amount + ", Валюта=" + transaction2Currency + ", Статус=" + transaction2Status);
-        System.out.println("Транзакция 3: Описание=" + transaction3Description + ", Количество=" + transaction3Quantity + ", Цена=" + transaction3Price);
-        System.out.println("Транзакция 4: Получатель=" + transaction4Recipient + ", Подтверждение=" + transaction4Verified);
-        System.out.println("Транзакция 5: Номер счета=" + transaction5AccountNumber + ", Баланс счета=" + transaction5Balance);
+        scanner.close();
+
+        for (int i = 0; i < transactionCount; i++) {
+            System.out.println("Транзакция " + (i + 1) + ": " +
+                    "Сумма=" + transactionAmount[i] + ", " +
+                    "Тип=" + transactionType[i] + ", " +
+                    "Успешность=" + transactionSuccess[i] + ", " +
+                    "Сумма=" + transaction2Amount[i] + ", " +
+                    "Валюта=" + transaction2Currency[i] + ", " +
+                    "Статус=" + transaction2Status[i] + ", " +
+                    "Описание=" + transaction3Description[i] + ", " +
+                    "Количество=" + transaction3Quantity[i] + ", " +
+                    "Цена=" + transaction3Price[i] + ", " +
+                    "Получатель=" + transaction4Recipient[i] + ", " +
+                    "Подтверждение=" + transaction4Verified[i] + ", " +
+                    "Номер счета=" + transaction5AccountNumber[i] + ", " +
+                    "Баланс счета=" + transaction5Balance[i]);
+        }
+
+        searchTransactionsByDate(transactionCount, transaction3Description);
+    }
+
+    private static void searchTransactionsByDate(int transactionCount, String[] transaction3Description) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Введите диапазон дат для поиска операций (например, '01.01.2024-31.01.2024'): ");
+        String dateRange = scanner.nextLine();
 
         scanner.close();
     }
