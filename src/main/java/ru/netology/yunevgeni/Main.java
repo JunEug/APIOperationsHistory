@@ -1,94 +1,129 @@
 package ru.netology.yunevgeni;
-
 import java.util.Scanner;
+import ru.netology.yunevgeni.Customer;
+
 
 public class Main {
+    private static Operation[] operations = new Operation[100];
+    private static Customer[] customers = new Customer[50];
+    private static int[][] statement = new int[50][100];
+    private static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
 
-        int transactionCount = 5;
+        while (isRunning) {
+            System.out.println("Choose an option:");
+            System.out.println("1. Create Customer");
+            System.out.println("2. Create Operation");
+            System.out.println("3. Associate Operation with Customer");
+            System.out.println("4. Retrieve Customer Operations");
+            System.out.println("5. Exit");
 
-        int[] transactionAmount = new int[transactionCount];
-        String[] transactionType = new String[transactionCount];
-        boolean[] transactionSuccess = new boolean[transactionCount];
+            int choice = scanner.nextInt();
 
-        double[] transaction2Amount = new double[transactionCount];
-        char[] transaction2Currency = new char[transactionCount];
-        String[] transaction2Status = new String[transactionCount];
-
-        String[] transaction3Description = new String[transactionCount];
-        int[] transaction3Quantity = new int[transactionCount];
-        double[] transaction3Price = new double[transactionCount];
-
-        String[] transaction4Recipient = new String[transactionCount];
-        boolean[] transaction4Verified = new boolean[transactionCount];
-
-        int[] transaction5AccountNumber = new int[transactionCount];
-        double[] transaction5Balance = new double[transactionCount];
-
-        for (int i = 0; i < transactionCount; i++) {
-            System.out.println("Введите информацию о транзакции " + (i + 1) + ":");
-
-            System.out.print("Сумма транзакции: ");
-            transactionAmount[i] = scanner.nextInt();
-            System.out.print("Тип транзакции: ");
-            transactionType[i] = scanner.next();
-            System.out.print("Успешность транзакции (true/false): ");
-            transactionSuccess[i] = scanner.nextBoolean();
-
-            System.out.print("Сумма транзакции: ");
-            transaction2Amount[i] = scanner.nextDouble();
-            System.out.print("Валюта транзакции: ");
-            transaction2Currency[i] = scanner.next().charAt(0);
-            System.out.print("Статус транзакции: ");
-            transaction2Status[i] = scanner.next();
-
-            System.out.print("Описание транзакции: ");
-            transaction3Description[i] = scanner.next();
-            System.out.print("Количество товара: ");
-            transaction3Quantity[i] = scanner.nextInt();
-            System.out.print("Цена товара: ");
-            transaction3Price[i] = scanner.nextDouble();
-
-            System.out.print("Получатель транзакции: ");
-            transaction4Recipient[i] = scanner.next();
-            System.out.print("Подтверждение транзакции (true/false): ");
-            transaction4Verified[i] = scanner.nextBoolean();
-
-            System.out.print("Номер счета: ");
-            transaction5AccountNumber[i] = scanner.nextInt();
-            System.out.print("Баланс счета: ");
-            transaction5Balance[i] = scanner.nextDouble();
+            switch (choice) {
+                case 1:
+                    createCustomer();
+                    break;
+                case 2:
+                    createOperation();
+                    break;
+                case 3:
+                    associateOperationWithCustomer();
+                    break;
+                case 4:
+                    retrieveCustomerOperations();
+                    break;
+                case 5:
+                    isRunning = false;
+                    System.out.println("Exiting the program. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
         }
-
-        scanner.close();
-
-        for (int i = 0; i < transactionCount; i++) {
-            System.out.println("Транзакция " + (i + 1) + ": " +
-                    "Сумма=" + transactionAmount[i] + ", " +
-                    "Тип=" + transactionType[i] + ", " +
-                    "Успешность=" + transactionSuccess[i] + ", " +
-                    "Сумма=" + transaction2Amount[i] + ", " +
-                    "Валюта=" + transaction2Currency[i] + ", " +
-                    "Статус=" + transaction2Status[i] + ", " +
-                    "Описание=" + transaction3Description[i] + ", " +
-                    "Количество=" + transaction3Quantity[i] + ", " +
-                    "Цена=" + transaction3Price[i] + ", " +
-                    "Получатель=" + transaction4Recipient[i] + ", " +
-                    "Подтверждение=" + transaction4Verified[i] + ", " +
-                    "Номер счета=" + transaction5AccountNumber[i] + ", " +
-                    "Баланс счета=" + transaction5Balance[i]);
-        }
-
-        searchTransactionsByDate(transactionCount, transaction3Description);
     }
 
-    private static void searchTransactionsByDate(int transactionCount, String[] transaction3Description) {
-        Scanner scanner = new Scanner(System.in);
+    private static void createCustomer() {
+        System.out.println("Enter customer details:");
+        System.out.print("Customer ID: ");
+        int customerId = scanner.nextInt();
+        System.out.print("Name: ");
+        String name = scanner.next();
+        System.out.print("Email: ");
+        String email = scanner.next();
 
-        System.out.println("Введите диапазон дат для поиска операций (например, '01.01.2024-31.01.2024'): ");
-        String dateRange = scanner.nextLine();
+        Customer customer = new Customer(customerId, name, email);
+        customers[customerId] = customer;
 
-        scanner.close();
+        System.out.println("Customer created successfully.");
+    }
+
+    private static void createOperation() {
+        System.out.println("Enter operation details:");
+        System.out.print("Operation ID: ");
+        int operationId = scanner.nextInt();
+        System.out.print("Description: ");
+        String description = scanner.next();
+        System.out.print("Amount: ");
+        double amount = scanner.nextDouble();
+
+        Operation operation = new Operation(operationId, description, amount);
+        operations[operationId] = operation;
+
+        System.out.println("Operation created successfully.");
+    }
+
+    private static void associateOperationWithCustomer() {
+        System.out.println("Enter customer ID to associate with the operation: ");
+        int customerToAssociateId = scanner.nextInt();
+
+        if (customers[customerToAssociateId] != null) {
+            System.out.println("Enter operation ID to associate with the customer: ");
+            int operationId = scanner.nextInt();
+
+            if (operations[operationId] != null) {
+                statement[customerToAssociateId][operationId] = operationId;
+                System.out.println("Operation associated with the customer successfully.");
+            } else {
+                System.out.println("Operation not found.");
+            }
+        } else {
+            System.out.println("Customer not found. Do you want to create a new customer? (yes/no)");
+            String createCustomerChoice = scanner.next();
+
+            if (createCustomerChoice.equalsIgnoreCase("yes")) {
+                createCustomer();
+                associateOperationWithCustomer(); // Recursively retry association after creating a new customer
+            } else {
+                System.out.println("Operation not associated with any customer.");
+            }
+        }
+    }
+
+    private static void retrieveCustomerOperations() {
+        System.out.println("Enter customer ID to retrieve operations: ");
+        int customerIdToRetrieve = scanner.nextInt();
+        Operation[] customerOperations = getOperations(customerIdToRetrieve);
+
+        System.out.println("Customer Operations:");
+        for (Operation customerOperation : customerOperations) {
+            if (customerOperation != null) {
+                customerOperation.print();
+            }
+        }
+    }
+
+    public static Operation[] getOperations(int clientId) {
+        int[] operationIds = statement[clientId];
+        Operation[] customerOperations = new Operation[operationIds.length];
+
+        for (int i = 0; i < operationIds.length; i++) {
+            int operationId = operationIds[i];
+            customerOperations[i] = operations[operationId];
+        }
+
+        return customerOperations;
     }
 }
