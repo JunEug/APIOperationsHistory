@@ -1,4 +1,5 @@
 package ru.netology.yunevgeni;
+import java.io.*;
 import java.util.Scanner;
 import ru.netology.yunevgeni.Customer;
 
@@ -9,7 +10,19 @@ public class Main {
     private static int[][] statement = new int[50][100];
     private static Scanner scanner = new Scanner(System.in);
 
+    private static OperationData operationData;
+
+    private static void saveOperationInStatement(int customerId, int operationId) throws CustomerOperationOutOfBoundException {
+        if (customerId < 0 || customerId >= statement.length || operationId < 0 || operationId >= statement[customerId].length) {
+            throw new CustomerOperationOutOfBoundException(customerId, operationId);
+        }
+        statement[customerId][operationId] = operationId;
+        System.out.println("Operation associated with the customer successfully.");
+    }
+
     public static void main(String[] args) {
+        loadData();
+
         boolean isRunning = true;
 
         while (isRunning) {
@@ -42,6 +55,27 @@ public class Main {
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
+        }
+
+        saveData();
+    }
+
+    private static void loadData() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data.dat"))) {
+            operationData = (OperationData) ois.readObject();
+            System.out.println("Data loaded successfully.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Failed to load data: " + e.getMessage());
+            operationData = new OperationData(); // Initialize with empty data
+        }
+    }
+
+    private static void saveData() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data.dat"))) {
+            oos.writeObject(operationData);
+            System.out.println("Data saved successfully.");
+        } catch (IOException e) {
+            System.out.println("Failed to save data: " + e.getMessage());
         }
     }
 
