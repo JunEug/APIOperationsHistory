@@ -1,4 +1,4 @@
-package ru.netology.yunevgeni;
+package ru.netology.yunevgeni.exception;
 
 public class OperationException extends Exception {
     public OperationException(String message) {

@@ -1,17 +1,19 @@
-package ru.netology.yunevgeni;
+package ru.netology.yunevgeni.model;
 
 import lombok.Data;
 
 @Data
-public class Customer {
+public class Customer implements Identifiable {
     private int customerId;
     private String name;
     private String email;
+    private int id;
 
     public Customer() {
     }
 
-    public Customer(int customerId, String name, String email) {
+    public Customer(int id, int customerId, String name, String email) {
+        this.id = id;
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -41,4 +43,8 @@ public class Customer {
         this.email = email;
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
 }

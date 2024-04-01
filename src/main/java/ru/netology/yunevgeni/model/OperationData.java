@@ -1,4 +1,7 @@
-package ru.netology.yunevgeni;
+package ru.netology.yunevgeni.model;
+
+import ru.netology.yunevgeni.model.Customer;
+import ru.netology.yunevgeni.model.Operation;
 
 import java.io.Serializable;
 

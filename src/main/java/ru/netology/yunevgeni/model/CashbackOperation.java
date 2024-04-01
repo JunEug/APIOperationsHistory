@@ -1,6 +1,7 @@
-package ru.netology.yunevgeni;
+package ru.netology.yunevgeni.model;
 
 import lombok.Data;
+import ru.netology.yunevgeni.model.Operation;
 
 @Data
 public class CashbackOperation extends Operation {
