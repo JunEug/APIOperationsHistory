@@ -36,7 +36,7 @@ public class CustomerController {
         return new CustomerDTO(customer.getId(), customer.getName());
     }
 
-    @GetMapping("/{id}/") // Обработка запросов по ID с слэшем в конце
+    @GetMapping("/{id}/")
     public CustomerDTO getCustomerWithSlash(@PathVariable("id") int id){
         return getCustomer(id);
     }
